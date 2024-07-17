@@ -92,7 +92,7 @@ function App() {
               </span>
             </h2>
           ) : (
-            <a ref={glitch.ref} href="https://www.start.gg/tournament/redacted-reset/details" target="_blank"><img src="file://../public/logo.png" /> </a>
+            <a ref={glitch.ref} href="https://www.start.gg/tournament/redacted-reset/details" target="_blank"><img src={process.env.PUBLIC_URL + "/logo.png"} /> </a>
           )}
         </div>
         </div>
@@ -117,7 +117,7 @@ function App() {
               </span>
             </h2>
           ) : (
-            <a ref={glitch.ref} href="https://www.start.gg/tournament/redacted-reset/details" target="_blank"><img src="./logo.png" /> </a>
+            <a ref={glitch.ref} href="https://www.start.gg/tournament/redacted-reset/details" target="_blank"><img src={process.env.PUBLIC_URL + "/logo.png"} width='50%'/> </a>
           )}
         </div>
         </p>
