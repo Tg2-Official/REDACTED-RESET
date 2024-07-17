@@ -37,7 +37,6 @@ function App() {
   var time1 = '09/28/2024, 9:30'
   var time2 = '08/04/2024, 18:00'
   var time3 = '07/28/2024, 9:30'
-  time3 = '06/28/2024, 9:30'
 
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft(time1));
   const [startggTimeLeft, startggSetTimeLeft] = useState(calculateTimeLeft(time2));
@@ -117,7 +116,7 @@ function App() {
               </span>
             </h2>
           ) : (
-            <a ref={glitch.ref} href="https://www.start.gg/tournament/redacted-reset/details" target="_blank"><img src={process.env.PUBLIC_URL + "/logo.png"} width='50%'/> </a>
+            <a ref={glitch.ref} href="https://www.start.gg/tournament/redacted-reset/details" target="_blank"><img src={process.env.PUBLIC_URL + "/logo.png"} /> </a>
           )}
         </div>
         </p>
