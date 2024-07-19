@@ -3,14 +3,22 @@ import "./App.css";
 import { useGlitch } from "react-powerglitch";
 
 function App() {
-  const glitch = useGlitch({
-    playMode: "hover", 
-  });
+  const startGGLink = "https://www.start.gg/tournament/redacted-reset/details";
+  const tg2YoutubeLink = "https://www.youtube.com/@TG2Official";
 
-  
+  const SECRET_CODE = "JOHN-LUIGI-BLUIGI";
+  const SECRET_CODE_MESSAGE = `Use the secret code: ${SECRET_CODE} on start.gg`;
+
+  const eventStartTime = "09/28/2024, 9:30";
+  const signupsOpenTime = "08/04/2024, 18:00";
+  const startGGLiveTime = "07/28/2024, 9:30";
+
+  // ? These are testing dates
+  // const eventStartTime = "07/19/2024, 11:45";
+  // const startGGLiveTime = "07/19/2024, 11:47";
+  // const signupsOpenTime = "07/19/2024, 11:50";
 
   const calculateTimeLeft = (inputDate) => {
-    const year = new Date().getFullYear();
     const difference = +new Date(inputDate) - +new Date();
     let timeLeft = {};
 
@@ -24,111 +32,137 @@ function App() {
         seconds: ("0" + Math.floor((difference / 1000) % 60)).slice(-2),
       };
     } else {
-      // Calculate for next year if the date has passed
-      const nextYearDifference = +new Date(`09/28/${year + 1}`) - +new Date();
       timeLeft = {
-        days: -1
+        days: -1,
       };
     }
 
     return timeLeft;
   };
 
-  var time1 = '09/28/2024, 9:30'
-  var time2 = '08/04/2024, 18:00'
-  var time3 = '07/28/2024, 9:30'
-
-  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft(time1));
-  const [startggTimeLeft, startggSetTimeLeft] = useState(calculateTimeLeft(time2));
-  const [startggLiveTimeLeft, startggLiveSetTimeLeft] = useState(calculateTimeLeft(time3));
+  const [eventTimeLeft, setEventTimeLeft] = useState(
+    calculateTimeLeft(eventStartTime)
+  );
+  const [signupsTimeLeft, setSignupsTimeLeft] = useState(
+    calculateTimeLeft(signupsOpenTime)
+  );
+  const [startggLiveTimeLeft, startggLiveSetTimeLeft] = useState(
+    calculateTimeLeft(startGGLiveTime)
+  );
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setTimeLeft(calculateTimeLeft(time1));
-      startggSetTimeLeft(calculateTimeLeft(time2));
-      startggLiveSetTimeLeft(calculateTimeLeft(time3));
+      setEventTimeLeft(calculateTimeLeft(eventStartTime));
+      setSignupsTimeLeft(calculateTimeLeft(signupsOpenTime));
+      startggLiveSetTimeLeft(calculateTimeLeft(startGGLiveTime));
     }, 1000);
 
     return () => clearTimeout(timer);
   });
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <h1 ref={glitch.ref}>
+  const startGGLogo = () => {
+    return (
+      <a href={startGGLink} target="_blank" rel="noreferrer">
+        <img
+          src={process.env.PUBLIC_URL + "/startgg.png"}
+          alt="StartGG Logo"
+          style={{ width: "20%" }}
+        />{" "}
+      </a>
+    );
+  };
+
+  const TitleAndEventCountdown = () => {
+    const glitch = useGlitch({
+      playMode: "hover",
+    });
+    return (
+      <>
+        <h1>
           <span ref={glitch.ref}>
             <span style={{ fontFamily: "NuMonoOutline" }}>Re</span>
             <span>dacted Reset</span>
           </span>
         </h1>
         <div>
-          {timeLeft.days > 0 ? (
+          {eventTimeLeft.days !== -1 ? (
             <h1 style={{ fontFamily: "NuMonoOutline" }}>
-              <span ref={glitch.ref}>
-                {timeLeft.days}:{timeLeft.hours}:{timeLeft.minutes}:
-                {timeLeft.seconds}
+              <span>
+                {eventTimeLeft.days}:{eventTimeLeft.hours}:
+                {eventTimeLeft.minutes}:{eventTimeLeft.seconds}
               </span>
             </h1>
           ) : (
-            <h2><a ref={glitch.ref} href='https://www.youtube.com/@TG2Official' target="_blank">Reset Initiated</a></h2>
+            <h2>
+              <a href={tg2YoutubeLink} target="_blank" rel="noreferrer">
+                Reset Initiated
+              </a>
+            </h2>
           )}
         </div>
-        
-        {startggTimeLeft.days > 0 ? (
-        <div>
+      </>
+    );
+  };
+
+  const StartGGLiveCountdown = () => {
+    return (
+      <div>
         <h2>
-          <span ref={glitch.ref}>
+          <span>
             <span style={{ fontFamily: "NuMonoOutline" }}>St</span>
             <span>art.gg Live</span>
           </span>
         </h2>
         <div>
-          {startggLiveTimeLeft.days > 0 ? (
+          {startggLiveTimeLeft.days !== -1 ? (
             <h2 style={{ fontFamily: "NuMonoOutline" }}>
-              <span ref={glitch.ref}>
-                {startggLiveTimeLeft.days}:{startggLiveTimeLeft.hours}:{startggLiveTimeLeft.minutes}:
-                {startggLiveTimeLeft.seconds}
+              <span>
+                {startggLiveTimeLeft.days}:{startggLiveTimeLeft.hours}:
+                {startggLiveTimeLeft.minutes}:{startggLiveTimeLeft.seconds}
               </span>
             </h2>
           ) : (
-            <a ref={glitch.ref} href="https://www.start.gg/tournament/redacted-reset/details" target="_blank"><img src={process.env.PUBLIC_URL + "/logo.png"} /> </a>
+            startGGLogo()
           )}
         </div>
-        </div>
-        ) : (
-          <p></p>
-        )}
-        
-        {timeLeft.days > 0 ? (
-        <p>
+      </div>
+    );
+  };
+
+  const SignupsCountdown = () => {
+    return (
+      <div>
         <h2>
-          <span ref={glitch.ref}>
+          <span>
             <span style={{ fontFamily: "NuMonoOutline" }}>Si</span>
             <span>gn-ups open</span>
           </span>
         </h2>
         <div>
-          {startggTimeLeft.days > 0 ? (
+          {signupsTimeLeft.days !== -1 ? (
             <h2 style={{ fontFamily: "NuMonoOutline" }}>
-              <span ref={glitch.ref}>
-                {startggTimeLeft.days}:{startggTimeLeft.hours}:{startggTimeLeft.minutes}:
-                {startggTimeLeft.seconds}
+              <span>
+                {signupsTimeLeft.days}:{signupsTimeLeft.hours}:
+                {signupsTimeLeft.minutes}:{signupsTimeLeft.seconds}
               </span>
             </h2>
           ) : (
-            <a ref={glitch.ref} href="https://www.start.gg/tournament/redacted-reset/details" target="_blank"><img src={process.env.PUBLIC_URL + "/logo.png"} /> </a>
+            startGGLogo()
           )}
         </div>
-        </p>
-        ) : (
-          <p></p>
-        )}
+      </div>
+    );
+  };
+  return (
+    <div className="App">
+      <header className="App-header">
+        <TitleAndEventCountdown />
 
-        
+        <StartGGLiveCountdown />
+
+        <SignupsCountdown />
       </header>
-      <p style={{ display: "none" }}>
-        Use the secret code JOHN-LUIGI-BLUIGI on start.gg
-      </p>
+      <p style={{ display: "none" }}>{SECRET_CODE_MESSAGE}</p>
     </div>
   );
 }
